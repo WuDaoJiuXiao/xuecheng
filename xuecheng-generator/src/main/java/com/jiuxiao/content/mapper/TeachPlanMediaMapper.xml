@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuxiao.content.mapper.TeachPlanMediaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jiuxiao.content.po.TeachPlanMedia">
+        <id column="id" property="id" />
+        <result column="media_id" property="mediaId" />
+        <result column="teach_plan_id" property="teachPlanId" />
+        <result column="course_id" property="courseId" />
+        <result column="media_file_name" property="mediaFileName" />
+        <result column="create_date" property="createDate" />
+        <result column="create_people" property="createPeople" />
+        <result column="change_people" property="changePeople" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, media_id, teach_plan_id, course_id, media_file_name, create_date, create_people, change_people
+    </sql>
+
+</mapper>

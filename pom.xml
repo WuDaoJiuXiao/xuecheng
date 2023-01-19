@@ -36,9 +36,7 @@
         <commons-lang3.version>3.10</commons-lang3.version>
         <minio.version>8.4.3</minio.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <swagger-annotation.version>1.5.20</swagger-annotation.version>
-        <swagger-bootstrap-ui.version>1.9.6</swagger-bootstrap-ui.version>
-        <swagger-spring-boot-starter.version>1.9.0.RELEASE</swagger-spring-boot-starter.version>
+        <knife4j.version>4.0.0</knife4j.version>
         <okhttp.version>4.8.1</okhttp.version>
         <elasticsearch.version>7.12.1</elasticsearch.version>
     </properties>
@@ -88,7 +86,6 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-            <!--servlet-api依赖:4.0.1，找不到，目前看来无效，暂不引入-->
             <!--fastjson依赖-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -137,23 +134,11 @@
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
             </dependency>
-            <!--Swagger-Annotation依赖-->
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotation.version}</version>
-            </dependency>
-            <!--Swagger第三方UI依赖-->
+            <!--Knife4j文档依赖-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>${swagger-bootstrap-ui.version}</version>
-            </dependency>
-            <!--Swagger启动器依赖-->
-            <dependency>
-                <groupId>com.spring4all</groupId>
-                <artifactId>swagger-spring-boot-starter</artifactId>
-                <version>${swagger-spring-boot-starter.version}</version>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
             <!--OKHttp依赖-->
             <dependency>

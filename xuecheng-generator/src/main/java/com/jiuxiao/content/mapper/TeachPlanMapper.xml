@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuxiao.content.mapper.TeachPlanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jiuxiao.content.po.TeachPlan">
+        <id column="id" property="id" />
+        <result column="p_name" property="pName" />
+        <result column="parent_id" property="parentId" />
+        <result column="grade" property="grade" />
+        <result column="media_type" property="mediaType" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="description" property="description" />
+        <result column="time_length" property="timeLength" />
+        <result column="order_by" property="orderBy" />
+        <result column="course_id" property="courseId" />
+        <result column="course_pub_id" property="coursePubId" />
+        <result column="status" property="status" />
+        <result column="is_preview" property="isPreview" />
+        <result column="create_date" property="createDate" />
+        <result column="change_date" property="changeDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, p_name, parent_id, grade, media_type, start_time, end_time, description, time_length, order_by, course_id, course_pub_id, status, is_preview, create_date, change_date
+    </sql>
+
+</mapper>

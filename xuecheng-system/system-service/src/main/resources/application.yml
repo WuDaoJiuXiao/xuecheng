@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: system-service
+  datasource:
+    username: root
+    password: "0531"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xuecheng_system?useUnicode=true&useSSL=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    # 日志文件配置路径
+    #logging:
+    #  config: classpath:log4j2-dev.xml
+logging:
+  level:
+    com.jiuxiao: debug

@@ -3,7 +3,7 @@
 <mapper namespace="com.jiuxiao.content.mapper.TeachPlanMediaMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jiuxiao.content.po.TeachPlanMedia">
+    <resultMap id="BaseResultMap" type="com.jiuxiao.content.module.po.TeachPlanMedia">
         <id column="id" property="id" />
         <result column="media_id" property="mediaId" />
         <result column="teach_plan_id" property="teachPlanId" />

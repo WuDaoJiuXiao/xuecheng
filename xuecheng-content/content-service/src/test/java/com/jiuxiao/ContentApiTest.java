@@ -3,14 +3,17 @@ package com.jiuxiao;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
 import com.jiuxiao.content.mapper.CourseBaseMapper;
+import com.jiuxiao.content.module.dto.CourseCategoryTreeDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
 import com.jiuxiao.content.module.po.CourseBase;
 import com.jiuxiao.content.service.CourseBaseService;
+import com.jiuxiao.content.service.CourseCategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 内容管理测试
@@ -27,6 +30,9 @@ public class ContentApiTest {
     @Resource
     private CourseBaseService courseBaseService;
 
+    @Resource
+    private CourseCategoryService courseCategoryService;
+
     @Test
     void testCourseBaseQuery(){
         CourseBase courseBase = courseBaseMapper.selectById(18);
@@ -40,5 +46,13 @@ public class ContentApiTest {
                 new QueryCourseParamsDto()
         );
         System.out.println(courseBasePageResult);
+    }
+
+    @Test
+    void testCourseCategoryService(){
+        List<CourseCategoryTreeDto> list = courseCategoryService.queryCourseCategoryList("1");
+        for (CourseCategoryTreeDto courseCategoryTreeDto : list) {
+            System.out.println(courseCategoryTreeDto);
+        }
     }
 }

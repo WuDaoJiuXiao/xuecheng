@@ -11,9 +11,15 @@ import lombok.Data;
 @Data
 public class QueryCourseParamsDto {
 
-    private String auditStatus;
-
+    //课程名
     private String courseName;
 
+    //课程审核状态
+    private String auditStatus;
+
+    //课程类型
+    private String courseType;
+
+    //课程发布状态
     private String publishStatus;
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.jiuxiao.content.mapper.CourseBaseMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.jiuxiao.content.po.CourseBase">
+    <resultMap id="BaseResultMap" type="com.jiuxiao.content.module.po.CourseBase">
         <id column="id" property="id" />
         <result column="company_id" property="companyId" />
         <result column="company_name" property="companyName" />

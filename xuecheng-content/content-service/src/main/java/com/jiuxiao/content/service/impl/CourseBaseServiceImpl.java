@@ -41,6 +41,10 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
                 CourseBase::getAuditStatus, queryCourseParamsDto.getAuditStatus()
         );
         //课程发布状态
+        queryWrapper.eq(
+                StringUtils.isNotEmpty(queryCourseParamsDto.getPublishStatus()),
+                CourseBase::getStatus, queryCourseParamsDto.getPublishStatus()
+        );
 
         //分页结果
         Page<CourseBase> page = new Page<>(pageParams.getCurrentPageNum(), pageParams.getPageSize());

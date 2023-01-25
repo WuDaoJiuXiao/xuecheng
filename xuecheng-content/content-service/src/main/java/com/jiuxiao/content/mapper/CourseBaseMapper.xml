@@ -13,7 +13,7 @@
         <result column="mt" property="mt" />
         <result column="st" property="st" />
         <result column="grade" property="grade" />
-        <result column="teach_mode" property="teachMode" />
+        <result column="teachmode" property="teachMode" />
         <result column="description" property="description" />
         <result column="pic" property="pic" />
         <result column="create_date" property="createDate" />

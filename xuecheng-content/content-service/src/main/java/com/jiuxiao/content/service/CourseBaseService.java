@@ -3,6 +3,8 @@ package com.jiuxiao.content.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
+import com.jiuxiao.content.module.dto.AddCourseDto;
+import com.jiuxiao.content.module.dto.CourseBaseInfoDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
 import com.jiuxiao.content.module.po.CourseBase;
 
@@ -23,4 +25,13 @@ public interface CourseBaseService extends IService<CourseBase> {
      * @date 2023/1/20 11:55
      */
     PageResult<CourseBase> queryCourseBaseInfo(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
+
+    /**
+     * @param companyId 培训机构的ID
+     * @param addCourseDto 新增课程信息DTO
+     * @return: com.jiuxiao.content.module.dto.CourseBaseInfoDto
+     * @decription 新增课程基本信息
+     * @date 2023/1/25 12:40
+     */
+    CourseBaseInfoDto addCourseBase(Long companyId, AddCourseDto addCourseDto);
 }

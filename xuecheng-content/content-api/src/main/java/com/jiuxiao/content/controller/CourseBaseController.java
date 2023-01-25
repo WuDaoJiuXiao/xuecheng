@@ -2,6 +2,8 @@ package com.jiuxiao.content.controller;
 
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
+import com.jiuxiao.content.module.dto.AddCourseDto;
+import com.jiuxiao.content.module.dto.CourseBaseInfoDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
 import com.jiuxiao.content.module.po.CourseBase;
 import com.jiuxiao.content.service.CourseBaseService;
@@ -30,5 +32,12 @@ public class CourseBaseController {
     @PostMapping("/course/list")
     public PageResult<CourseBase> list(PageParams pageParams, @RequestBody QueryCourseParamsDto queryCourseParamsDto) {
         return courseBaseService.queryCourseBaseInfo(pageParams, queryCourseParamsDto);
+    }
+
+    @ApiOperation("新增课程信息")
+    @PostMapping("/course")
+    public CourseBaseInfoDto addCourseBase(@RequestBody AddCourseDto addCourseDto){
+        Long companyId = 1L; // 培训机构的id由授权认证模块来获得
+        return courseBaseService.addCourseBase(companyId, addCourseDto);
     }
 }

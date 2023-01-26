@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
+import com.jiuxiao.base.utils.AssertUtils;
 import com.jiuxiao.content.mapper.CourseBaseMapper;
 import com.jiuxiao.content.mapper.CourseCategoryMapper;
 import com.jiuxiao.content.mapper.CourseMarketMapper;
@@ -88,30 +89,6 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
     @Override
     @Transactional
     public CourseBaseInfoDto addCourseBase(Long companyId, AddCourseDto addCourseDto) {
-        //参数合法性校验，后面会使用JSR303进行校验
-        if (StringUtils.isBlank(addCourseDto.getName())) {
-            throw new RuntimeException("课程名称为空");
-        }
-        if (StringUtils.isBlank(addCourseDto.getMt())) {
-            throw new RuntimeException("课程分类为空");
-        }
-        if (StringUtils.isBlank(addCourseDto.getSt())) {
-            throw new RuntimeException("课程分类为空");
-        }
-        if (StringUtils.isBlank(addCourseDto.getGrade())) {
-            throw new RuntimeException("课程等级为空");
-        }
-        if (StringUtils.isBlank(addCourseDto.getTeachmode())) {
-            throw new RuntimeException("教育模式为空");
-        }
-        if (StringUtils.isBlank(addCourseDto.getUsers())) {
-            throw new RuntimeException("课程适应人群为空");
-        }
-        if (StringUtils.isBlank(addCourseDto.getCharge())) {
-            throw new RuntimeException("收费规则为空");
-        }
-
-        //向 courseBase 表插入信息
         CourseBase courseBase = new CourseBase();
         BeanUtils.copyProperties(addCourseDto, courseBase);
         courseBase.setCompanyId(companyId);
@@ -127,17 +104,23 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         BeanUtils.copyProperties(addCourseDto, courseMarket);
         Long courseId = courseBase.getId();
         courseMarket.setId(courseId);
-        //如果课程为收费，则价格不能为空
+        //如果课程为收费，则现价与原价必须进行相关判断
         if (addCourseDto.getCharge().equals("201001")) {
-            if (null == courseMarket.getPrice() || courseMarket.getPrice() <= 0) {
-                throw new RuntimeException("收费课程必须设置价格");
-            }
+            AssertUtils.isTrue(
+                    courseMarket.getPrice() != null || courseMarket.getOriginalPrice() != null,
+                    "收费课程必须设置原价和现价"
+            );
+            AssertUtils.isTrue(
+                    courseMarket.getPrice() > 0 && courseMarket.getOriginalPrice() > 0,
+                    "收费课程的现价或原价必须大于零"
+            );
+            AssertUtils.isTrue(
+                    courseMarket.getPrice() < courseMarket.getOriginalPrice(),
+                    "收费课程的原价必须大于或等于现价"
+            );
         }
         int insertCourseMarket = courseMarketMapper.insert(courseMarket);
-
-        if (insertCourseBase <= 0 || insertCourseMarket <= 0) {
-            throw new RuntimeException("课程添加失败");
-        }
+        AssertUtils.isTrue(insertCourseBase > 0 && insertCourseMarket > 0, "课程添加失败");
 
         return getCourseInfoById(courseId);
     }

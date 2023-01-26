@@ -1,0 +1,8 @@
+### 查询所有数据字典的信息
+GET {{system_port}}/system/dictionary/all
+Content-Type: application/json
+
+
+### 通过代号获取数据字典中对应的信息
+GET {{system_port}}/system/dictionary/code/202
+Content-Type: application/json

@@ -1,0 +1,41 @@
+### 查询所有课程列表
+POST {{content_port}}/content/course/list
+Content-Type: application/json
+
+{
+  "currentPageNum": 1,
+  "pageSize": 10,
+  "courseName": "",
+  "auditStatus": "",
+  "courseType": "",
+  "publishStatus": "203002"
+}
+
+
+### 查询所有课程分类
+GET {{content_port}}/content/course-category/tree-nodes
+Content-Type: application/json
+
+
+### 新增课程信息
+POST {{content_port}}/content/course
+Content-Type: application/json
+
+{
+  "name": "游戏开发",
+  "users": "高级人员",
+  "tags": "游戏,Java,开发",
+  "mt": "",
+  "st": "",
+  "grade": "204001",
+  "teachmode": "200002",
+  "description": "Java开发者的入门级小游戏",
+  "pic": "",
+  "charge": "201001",
+  "price": 108,
+  "originalPrice": 588,
+  "qq": "1111222",
+  "wechat": "qwerty",
+  "phone": "18312345678",
+  "validDays": 365
+}

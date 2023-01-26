@@ -9,6 +9,7 @@ import com.jiuxiao.content.module.po.CourseBase;
 import com.jiuxiao.content.service.CourseBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,8 @@ public class CourseBaseController {
 
     @ApiOperation("新增课程信息")
     @PostMapping("/course")
-    public CourseBaseInfoDto addCourseBase(@RequestBody AddCourseDto addCourseDto){
+    public CourseBaseInfoDto addCourseBase(@RequestBody @Validated AddCourseDto addCourseDto){
+        //使用注解 @Validated 进行校验的对向，不合法时会抛出一个 MethodArgumentNotValidException，需要我们去捕获
         Long companyId = 1L; // 培训机构的id由授权认证模块来获得
         return courseBaseService.addCourseBase(companyId, addCourseDto);
     }

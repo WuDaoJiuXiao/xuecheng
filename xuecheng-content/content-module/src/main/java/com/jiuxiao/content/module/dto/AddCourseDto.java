@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 /**
  * 添加课程DTO
@@ -22,18 +21,17 @@ public class AddCourseDto {
     private String name;
 
     @NotEmpty(message = "适用人群不能为空")
-    @Size(message = "适用人群内容过少",min = 10)
     @ApiModelProperty(value = "适用人群", required = true)
     private String users;
 
     @ApiModelProperty(value = "课程标签")
     private String tags;
 
-    @NotEmpty(message = "课程分类不能为空")
+    @NotEmpty(message = "课程大分类不能为空")
     @ApiModelProperty(value = "大分类", required = true)
     private String mt;
 
-    @NotEmpty(message = "课程分类不能为空")
+    @NotEmpty(message = "课程小分类不能为空")
     @ApiModelProperty(value = "小分类", required = true)
     private String st;
 

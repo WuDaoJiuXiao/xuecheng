@@ -53,10 +53,10 @@ public class CourseBaseInfoDto extends CourseBase {
     /**
      * 大分类名称
      */
-    private String mtName;
+    private String mt;
 
     /**
      * 小分类名称
      */
-    private String stName;
+    private String st;
 }

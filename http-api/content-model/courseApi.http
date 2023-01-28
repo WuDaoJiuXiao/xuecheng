@@ -39,3 +39,33 @@ Content-Type: application/json
   "phone": "18312345678",
   "validDays": 365
 }
+
+
+### 根据ID获取课程基本、营销信息
+GET {{content_port}}/content/course/144
+Content-Type: application/json
+
+
+### 根据课程ID修改课程基本信息、营销信息
+PUT {{content_port}}/content/course
+Content-Type: application/json
+
+{
+  "id": 144,
+  "name": "Redis入土",
+  "users": "中级人员",
+  "tags": "中间件,Java,开发",
+  "mt": "1-3",
+  "st": "1-3-2",
+  "grade": "204001",
+  "teachmode": "200002",
+  "description": "中间件必须内容",
+  "pic": "",
+  "charge": "201001",
+  "price": 98,
+  "originalPrice": 120,
+  "qq": "123456",
+  "wechat": "8549865",
+  "phone": "18700001111",
+  "validDays": 205
+}

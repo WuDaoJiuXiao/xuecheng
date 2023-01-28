@@ -5,14 +5,13 @@ import com.jiuxiao.base.module.PageResult;
 import com.jiuxiao.content.module.dto.AddCourseDto;
 import com.jiuxiao.content.module.dto.CourseBaseInfoDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
+import com.jiuxiao.content.module.dto.UpdateCourseDto;
 import com.jiuxiao.content.module.po.CourseBase;
 import com.jiuxiao.content.service.CourseBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -41,5 +40,18 @@ public class CourseBaseController {
         //使用注解 @Validated 进行校验的对向，不合法时会抛出一个 MethodArgumentNotValidException，需要我们去捕获
         Long companyId = 1L; // 培训机构的id由授权认证模块来获得
         return courseBaseService.addCourseBase(companyId, addCourseDto);
+    }
+
+    @ApiOperation("根据ID获取课程基本、营销信息")
+    @GetMapping("/course/{courseId}")
+    public CourseBaseInfoDto getCourseInfoById(@PathVariable Long courseId){
+        return courseBaseService.getCourseInfoById(courseId);
+    }
+
+    @ApiOperation("根据课程ID修改课程基本信息、营销信息")
+    @PutMapping("/course")
+    public CourseBaseInfoDto updateCourseInfo(@RequestBody UpdateCourseDto updateCourseDto){
+        Long companyId = 1L;
+        return courseBaseService.updateCourse(companyId, updateCourseDto);
     }
 }

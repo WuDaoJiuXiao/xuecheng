@@ -3,7 +3,6 @@ package com.jiuxiao.content.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiuxiao.content.mapper.CourseMarketMapper;
 import com.jiuxiao.content.module.po.CourseMarket;
-import com.jiuxiao.content.service.CourseMarketService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +14,6 @@ import org.springframework.stereotype.Service;
  * @since 2023-01-18
  */
 @Service
-public class CourseMarketServiceImpl extends ServiceImpl<CourseMarketMapper, CourseMarket> implements CourseMarketService {
+public class CourseMarketServiceImpl extends ServiceImpl<CourseMarketMapper, CourseMarket> {
 
 }

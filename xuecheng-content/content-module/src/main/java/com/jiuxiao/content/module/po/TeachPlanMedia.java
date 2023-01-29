@@ -50,6 +50,9 @@ public class TeachPlanMedia implements Serializable {
      */
     private String mediaFileName;
 
+    /**
+     * 创建时间
+     */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 

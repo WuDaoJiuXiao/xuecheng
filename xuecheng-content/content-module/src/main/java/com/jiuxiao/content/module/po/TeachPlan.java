@@ -30,12 +30,12 @@ public class TeachPlan implements Serializable {
     /**
      * 课程计划名称
      */
-    private String pName;
+    private String pname;
 
     /**
      * 课程计划父级Id
      */
-    private Long parentId;
+    private Long parentid;
 
     /**
      * 层级，分为1、2、3级
@@ -65,12 +65,12 @@ public class TeachPlan implements Serializable {
     /**
      * 时长，单位时:分:秒
      */
-    private String timeLength;
+    private String timelength;
 
     /**
      * 排序字段
      */
-    private Integer orderBy;
+    private Integer orderby;
 
     /**
      * 课程标识
@@ -103,6 +103,4 @@ public class TeachPlan implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime changeDate;
-
-
 }

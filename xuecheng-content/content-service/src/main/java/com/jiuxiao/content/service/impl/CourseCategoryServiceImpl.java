@@ -35,11 +35,11 @@ public class CourseCategoryServiceImpl extends ServiceImpl<CourseCategoryMapper,
         categoryList.forEach(item -> {
             hashMap.put(item.getId(), item);
             //先将要查询节点的所有直接子节点放入结果
-            if (item.getParentId().equals(id)){
+            if (item.getParentid().equals(id)){
                 result.add(item);
             }
 
-            String parentId = item.getParentId();
+            String parentId = item.getParentid();
             CourseCategoryTreeDto parentNode = hashMap.get(parentId);
             //当前节点的父节点若不为空，则将当前节点放入其父节点的 ChildrenTreeNodes 属性中
             if (null != parentNode){

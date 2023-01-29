@@ -7,15 +7,15 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="label" property="label"/>
-        <result column="parent_id" property="parentId"/>
+        <result column="parentid" property="parentid"/>
         <result column="is_show" property="isShow"/>
-        <result column="order_by" property="orderBy"/>
+        <result column="orderby" property="orderby"/>
         <result column="is_leaf" property="isLeaf"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, label, parent_id, is_show, order_by, is_leaf
+        id, name, label, parentid, is_show, orderby, is_leaf
     </sql>
 
     <!--查询所有分类列表-->
@@ -27,7 +27,7 @@
             union all
             select p1.*
             from xuecheng_content.course_category p1
-                     inner join t1 on t1.id = p1.parent_id
+                     inner join t1 on t1.id = p1.parentid
         )
         select *
         from t1

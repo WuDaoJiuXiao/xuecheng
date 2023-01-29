@@ -3,8 +3,10 @@ package com.jiuxiao;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
 import com.jiuxiao.content.mapper.CourseBaseMapper;
+import com.jiuxiao.content.mapper.TeachPlanMapper;
 import com.jiuxiao.content.module.dto.CourseCategoryTreeDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
+import com.jiuxiao.content.module.dto.TeachPlanDto;
 import com.jiuxiao.content.module.po.CourseBase;
 import com.jiuxiao.content.service.CourseBaseService;
 import com.jiuxiao.content.service.CourseCategoryService;
@@ -33,6 +35,9 @@ public class ContentApiTest {
     @Resource
     private CourseCategoryService courseCategoryService;
 
+    @Resource
+    private TeachPlanMapper teachPlanMapper;
+
     @Test
     void testCourseBaseQuery(){
         CourseBase courseBase = courseBaseMapper.selectById(18);
@@ -53,6 +58,15 @@ public class ContentApiTest {
         List<CourseCategoryTreeDto> list = courseCategoryService.queryCourseCategoryList("1");
         for (CourseCategoryTreeDto courseCategoryTreeDto : list) {
             System.out.println(courseCategoryTreeDto);
+        }
+    }
+
+    @Test
+    void testTeachPlanMapper(){
+        Long courseId = 117L;
+        List<TeachPlanDto> teachPlanDtos = teachPlanMapper.selectTreeNodes(courseId);
+        for (TeachPlanDto teachPlanDto : teachPlanDtos) {
+            System.out.println(teachPlanDto);
         }
     }
 }

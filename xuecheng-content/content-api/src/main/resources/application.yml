@@ -26,14 +26,4 @@ spring:
 logging:
   level:
     com.jiuxiao: debug
-# knife4j文档配置
-knife4j:
-  enable: true
-  openapi:
-    title: 学成教育文档
-    description: 学成在线内容管理接口文档
-    email: fanye814@gmail.com
-    concat: 悟道九霄
-    version: v1.0
-    license: Apache 2.0
 

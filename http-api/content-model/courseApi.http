@@ -69,3 +69,8 @@ Content-Type: application/json
   "phone": "18700001111",
   "validDays": 205
 }
+
+
+### 根据课程ID查询课程计划的树形图
+GET {{content_port}}/content/teach-plan/117/tree-nodes
+Content-Type: application/json

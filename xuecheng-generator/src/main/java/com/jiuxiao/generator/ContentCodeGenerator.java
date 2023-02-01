@@ -18,16 +18,16 @@ import java.util.Arrays;
  */
 public class ContentCodeGenerator {
 
-    private static final String SERVICE_NAME = "content";
+    private static final String SERVICE_NAME = "media";
 
     private static final Boolean IS_DTO = false;
 
     private static final String[] TABLE_NAME_LIST = new String[]{
-            "mq_message", "mq_message_history",
-            "course_base", "course_market",
-            "teach_plan", "teach_plan_media",
-            "course_teacher", "course_publish",
-            "course_publish_pre", "course_category"
+            "media_files",
+            "media_process",
+            "media_process_history",
+            "mq_message",
+            "mq_message_history",
     };
 
     private static final String baseDir = System.getProperty("user.dir");

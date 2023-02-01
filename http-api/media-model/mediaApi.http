@@ -1,0 +1,3 @@
+### 媒资接口列表查询
+POST {{gateway_port}}/media/files
+Content-Type: application/json

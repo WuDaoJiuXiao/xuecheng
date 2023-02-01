@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: media-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        namespace: cf251b4b-3717-4a97-916d-4e19b28c3d2a
+        group: xuecheng
+      config:
+        namespace: cf251b4b-3717-4a97-916d-4e19b28c3d2a
+        group: xuecheng
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs:
+          - data-id: logging.${spring.cloud.nacos.config.file-extension}
+            group: common
+            refresh: true

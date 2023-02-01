@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: content-api
+  mvc: #解决高版本SpringCloud整合swagger报错问题
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        namespace: cf251b4b-3717-4a97-916d-4e19b28c3d2a
+        group: xuecheng
+      config:
+        namespace: cf251b4b-3717-4a97-916d-4e19b28c3d2a
+        group: xuecheng
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs: # 整个项目公用配置：日志、Swagger等
+          - data-id: logging.${spring.cloud.nacos.config.file-extension}
+            group: common
+            refresh: true
+        extension-configs:
+          - data-id: content-service.${spring.cloud.nacos.config.file-extension}
+            group: xuecheng
+            refresh: true

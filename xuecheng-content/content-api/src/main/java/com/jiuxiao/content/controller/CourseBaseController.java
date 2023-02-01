@@ -6,7 +6,6 @@ import com.jiuxiao.content.module.dto.AddCourseDto;
 import com.jiuxiao.content.module.dto.CourseBaseInfoDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
 import com.jiuxiao.content.module.dto.UpdateCourseDto;
-import com.jiuxiao.content.module.po.CourseBase;
 import com.jiuxiao.content.service.CourseBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +29,7 @@ public class CourseBaseController {
 
     @ApiOperation("课程列表查询")
     @PostMapping("/course/list")
-    public PageResult<CourseBase> list(PageParams pageParams, @RequestBody QueryCourseParamsDto queryCourseParamsDto) {
+    public PageResult<CourseBaseInfoDto> list(PageParams pageParams, @RequestBody QueryCourseParamsDto queryCourseParamsDto) {
         return courseBaseService.queryCourseBaseInfo(pageParams, queryCourseParamsDto);
     }
 

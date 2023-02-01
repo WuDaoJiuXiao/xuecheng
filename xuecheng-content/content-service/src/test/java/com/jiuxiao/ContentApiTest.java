@@ -4,6 +4,7 @@ import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
 import com.jiuxiao.content.mapper.CourseBaseMapper;
 import com.jiuxiao.content.mapper.TeachPlanMapper;
+import com.jiuxiao.content.module.dto.CourseBaseInfoDto;
 import com.jiuxiao.content.module.dto.CourseCategoryTreeDto;
 import com.jiuxiao.content.module.dto.QueryCourseParamsDto;
 import com.jiuxiao.content.module.dto.TeachPlanDto;
@@ -12,6 +13,7 @@ import com.jiuxiao.content.service.CourseBaseService;
 import com.jiuxiao.content.service.CourseCategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -38,6 +40,9 @@ public class ContentApiTest {
     @Resource
     private TeachPlanMapper teachPlanMapper;
 
+    @Value("${spring.profiles.active}")
+    private String applicationName;
+
     @Test
     void testCourseBaseQuery(){
         CourseBase courseBase = courseBaseMapper.selectById(18);
@@ -46,7 +51,7 @@ public class ContentApiTest {
 
     @Test
     void testCourseBaseService(){
-        PageResult<CourseBase> courseBasePageResult = courseBaseService.queryCourseBaseInfo(
+        PageResult<CourseBaseInfoDto> courseBasePageResult = courseBaseService.queryCourseBaseInfo(
                 new PageParams(),
                 new QueryCourseParamsDto()
         );
@@ -68,5 +73,10 @@ public class ContentApiTest {
         for (TeachPlanDto teachPlanDto : teachPlanDtos) {
             System.out.println(teachPlanDto);
         }
+    }
+
+    @Test
+    void testConfigFile(){
+        System.out.println(applicationName);
     }
 }

@@ -29,6 +29,21 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
         </dependency>
+        <!--Nacos服务发现依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--Nacos配置管理依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--bootstrap依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
         <!-- SpringBoot Web依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

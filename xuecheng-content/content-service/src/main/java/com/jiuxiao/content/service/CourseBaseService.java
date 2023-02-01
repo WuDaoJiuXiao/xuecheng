@@ -21,11 +21,11 @@ public interface CourseBaseService extends IService<CourseBase> {
     /**
      * @param pageParams           分页参数
      * @param queryCourseParamsDto 查询条件
-     * @return: com.jiuxiao.base.module.PageResult<com.jiuxiao.content.module.po.CourseBase>
+     * @return: com.jiuxiao.base.module.PageResult<com.jiuxiao.content.module.dto.CourseBaseInfoDto>
      * @decription 查询课程基本信息列表
      * @date 2023/1/20 11:55
      */
-    PageResult<CourseBase> queryCourseBaseInfo(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
+    PageResult<CourseBaseInfoDto> queryCourseBaseInfo(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto);
 
     /**
      * @param companyId    培训机构的ID

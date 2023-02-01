@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -57,7 +58,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
      * @date 2023/1/25 15:41
      */
     @Override
-    public PageResult<CourseBase> queryCourseBaseInfo(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
+    public PageResult<CourseBaseInfoDto> queryCourseBaseInfo(PageParams pageParams, QueryCourseParamsDto queryCourseParamsDto) {
         LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
         //课程名称
         queryWrapper.like(
@@ -74,13 +75,29 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
                 StringUtils.isNotEmpty(queryCourseParamsDto.getPublishStatus()),
                 CourseBase::getStatus, queryCourseParamsDto.getPublishStatus()
         );
-
         //分页结果
         Page<CourseBase> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
         Page<CourseBase> courseBasePage = courseBaseMapper.selectPage(page, queryWrapper);
-        return new PageResult<CourseBase>(
-                courseBasePage.getRecords(),
-                courseBasePage.getTotal(),
+        Page<CourseBaseInfoDto> resultPage = new Page<>();
+
+        //为查询的每个结果设置课程收费规则，组装结果后返回
+        ArrayList<CourseBaseInfoDto> recordList = new ArrayList<>();
+        for (CourseBase item : courseBasePage.getRecords()) {
+            CourseBaseInfoDto dto = new CourseBaseInfoDto();
+            BeanUtils.copyProperties(item, dto);
+            CourseMarket market = courseMarketMapper.selectById(item.getId());
+            if (null != market) {
+                dto.setCharge(market.getCharge());
+            }
+            recordList.add(dto);
+        }
+        BeanUtils.copyProperties(courseBasePage, resultPage);
+        //原来的查询结果没有 charge 项目，因此要重新设置 records
+        resultPage.setRecords(recordList);
+
+        return new PageResult<CourseBaseInfoDto>(
+                resultPage.getRecords(),
+                resultPage.getTotal(),
                 pageParams.getPageNo(),
                 pageParams.getPageSize()
         );
@@ -106,7 +123,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         courseBase.setCreateDate(LocalDateTime.now());
         courseBase.setChangeDate(LocalDateTime.now());
         int insertCourseBase = courseBaseMapper.insert(courseBase);
-        AssertUtils.isTrue(insertCourseBase > 0,"课程基本信息添加失败");
+        AssertUtils.isTrue(insertCourseBase > 0, "课程基本信息添加失败");
 
         CourseMarket courseMarket = new CourseMarket();
         BeanUtils.copyProperties(addCourseDto, courseMarket);
@@ -169,7 +186,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         BeanUtils.copyProperties(updateCourseDto, courseBase);
         courseBase.setChangeDate(LocalDateTime.now());
         int updateBase = courseBaseMapper.updateById(courseBase);
-        AssertUtils.isTrue(updateBase > 0,"修改课程基本信息失败");
+        AssertUtils.isTrue(updateBase > 0, "修改课程基本信息失败");
 
         CourseMarket courseMarket = new CourseMarket();
         BeanUtils.copyProperties(updateCourseDto, courseMarket);

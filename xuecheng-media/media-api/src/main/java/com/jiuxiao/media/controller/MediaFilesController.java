@@ -45,10 +45,10 @@ public class MediaFilesController {
                                       @RequestParam(value = "objectName", required = false) String objectName) {
         Long companyId = 1232141425L;
         UploadFileParamsDto uploadFileParamsDto = new UploadFileParamsDto();
+
         String contentType = filedata.getContentType();
         uploadFileParamsDto.setContentType(contentType);
         uploadFileParamsDto.setFileSize(filedata.getSize());//文件大小
-
         assert contentType != null;
         if (contentType.contains("image")) {
             //是个图片
@@ -56,10 +56,9 @@ public class MediaFilesController {
         } else {
             uploadFileParamsDto.setFileType("001003");
         }
-
         uploadFileParamsDto.setFilename(filedata.getOriginalFilename());
-        UploadFileResultDto uploadFileResultDto = null;
 
+        UploadFileResultDto uploadFileResultDto = null;
         try {
             uploadFileResultDto = mediaFilesService.uploadFile(companyId, uploadFileParamsDto, filedata.getBytes(), folder, objectName);
         } catch (Exception e) {

@@ -1,3 +1,9 @@
-### 媒资接口列表查询
-POST {{gateway_port}}/media/files
-Content-Type: application/json
+### 上传文件
+POST {{media_port}}/media/upload/coursefile
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filedata"; filename="bg03.jpg"
+Content-Type: application/octet-stream
+
+< e:/bg03.jpg

@@ -3,10 +3,13 @@ package com.jiuxiao.media.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
+import com.jiuxiao.base.module.RestResponse;
 import com.jiuxiao.media.module.dto.QueryMediaParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileResultDto;
 import com.jiuxiao.media.module.po.MediaFiles;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -51,10 +54,48 @@ public interface MediaFilesService extends IService<MediaFiles> {
     MediaFiles insertFileInfoToDB(Long companyId, String fileId, UploadFileParamsDto dto, String bucket, String objectName);
 
     /**
-     * @param id     要移除的文件ID
+     * @param id 要移除的文件ID
      * @return: com.jiuxiao.base.module.PageResult<com.jiuxiao.media.module.po.MediaFiles>
      * @decription 根据ID移除文件
      * @date 2023/2/7 11:25
      */
     void deleteMedia(String id);
+
+    /**
+     * @param fileMd5 文件的MD5值
+     * @return: com.jiuxiao.base.module.RestResponse<java.lang.Boolean>
+     * @decription 检查待上传的文件
+     * @date 2023/2/8 10:33
+     */
+    RestResponse<Boolean> checkFile(String fileMd5);
+
+    /**
+     * @param fileMd5 文件的MD5值
+     * @param chunk   分块的序号
+     * @return: com.jiuxiao.base.module.RestResponse<java.lang.Boolean>
+     * @decription 检查待上传的分块文件
+     * @date 2023/2/8 10:34
+     */
+    RestResponse<Boolean> checkChunk(String fileMd5, int chunk);
+
+    /**
+     * @param fileMd5 文件MD5值
+     * @param chunk   分块序号
+     * @param bytes   文件的字节数组
+     * @return: com.jiuxiao.base.module.RestResponse<java.lang.Boolean>
+     * @decription 上传分块文件
+     * @date 2023/2/8 11:09
+     */
+    RestResponse<Boolean> uploadChunk(String fileMd5, int chunk, byte[] bytes);
+
+    /**
+     * @param companyId  机构ID
+     * @param fileMd5    文件MD5值
+     * @param chunkTotal 分块总数量
+     * @param dto        文件上传参数DTO
+     * @return: com.jiuxiao.base.module.RestResponse<java.lang.Boolean>
+     * @decription 合并分块文件
+     * @date 2023/2/8 11:10
+     */
+    RestResponse<Boolean> mergeChunks(Long companyId, String fileMd5, int chunkTotal, UploadFileParamsDto dto) throws IOException;
 }

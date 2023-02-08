@@ -67,4 +67,11 @@ public class MediaFilesController {
 
         return uploadFileResultDto;
     }
+
+    @ApiOperation("根据ID移除文件")
+    @DeleteMapping("/{id}")
+    public void deleteMedia(@PathVariable String id){
+        mediaFilesService.deleteMedia(id);
+    }
+
 }

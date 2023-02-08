@@ -8,6 +8,7 @@ import com.j256.simplemagic.ContentInfoUtil;
 import com.jiuxiao.base.exception.XueChengException;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
+import com.jiuxiao.base.utils.AssertUtils;
 import com.jiuxiao.media.mapper.MediaFilesMapper;
 import com.jiuxiao.media.module.dto.QueryMediaParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileParamsDto;
@@ -68,6 +69,18 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
     @Override
     public PageResult<MediaFiles> queryMediaFile(Long companyId, PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto) {
         LambdaQueryWrapper<MediaFiles> queryWrapper = new LambdaQueryWrapper<>();
+        //文件名称
+        queryWrapper.like(
+                StringUtils.isNotEmpty(queryMediaParamsDto.getFilename()),
+                MediaFiles::getFilename, queryMediaParamsDto.getFilename()
+        );
+        //文件类型
+        queryWrapper.eq(
+                StringUtils.isNotEmpty(queryMediaParamsDto.getFileType()),
+                MediaFiles::getFileType, queryMediaParamsDto.getFileType()
+        );
+        //是否显示：1显示，0不显示
+        queryWrapper.eq(MediaFiles::getStatus, "1");
         Page<MediaFiles> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
         Page<MediaFiles> pageResult = mediaFilesMapper.selectPage(page, queryWrapper);
         List<MediaFiles> list = pageResult.getRecords();
@@ -222,5 +235,22 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
             folderString.append(dateStringArray[2]).append("/");
         }
         return folderString.toString();
+    }
+
+    /**
+     * @param id     要移除的文件ID
+     * @param params 分页参数
+     * @param dto    媒资查询DTO
+     * @return: com.jiuxiao.base.module.PageResult<com.jiuxiao.media.module.po.MediaFiles>
+     * @decription 根据ID移除文件
+     * @date 2023/2/7 11:25
+     */
+    @Override
+    public void deleteMedia(String id) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(id);
+        AssertUtils.isTrue(mediaFiles != null, "查询的媒资文件不存在");
+        mediaFiles.setStatus("0");
+        int update = mediaFilesMapper.updateById(mediaFiles);
+        AssertUtils.isTrue(update > 0, "删除媒资文件失败");
     }
 }

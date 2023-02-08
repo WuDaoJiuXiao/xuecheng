@@ -49,4 +49,12 @@ public interface MediaFilesService extends IService<MediaFiles> {
      * @date 2023/2/4 11:22
      */
     MediaFiles insertFileInfoToDB(Long companyId, String fileId, UploadFileParamsDto dto, String bucket, String objectName);
+
+    /**
+     * @param id     要移除的文件ID
+     * @return: com.jiuxiao.base.module.PageResult<com.jiuxiao.media.module.po.MediaFiles>
+     * @decription 根据ID移除文件
+     * @date 2023/2/7 11:25
+     */
+    void deleteMedia(String id);
 }

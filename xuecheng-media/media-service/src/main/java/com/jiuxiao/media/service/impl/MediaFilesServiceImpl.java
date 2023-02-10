@@ -180,16 +180,7 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
      * @date 2023/2/4 11:08
      */
     private void uploadFileToMinIO(byte[] bytes, String bucketName, String objectName) {
-        String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        //传入的对象是否有扩展名，没有则默认设置为未知的二进制流类型
-        if (objectName.contains(".")) {
-            String extensionName = objectName.substring(objectName.lastIndexOf("."));
-            ContentInfo extensionMatch = ContentInfoUtil.findExtensionMatch(extensionName);
-            //扩展名存在则匹配正确，否则默认为未知二进制类型文件
-            if (null != extensionMatch) {
-                contentType = extensionMatch.getMimeType();
-            }
-        }
+        String contentType = getMimeTypeByExtensionName(objectName);
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
@@ -229,13 +220,41 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
             mediaFiles.setCompanyId(companyId);
             mediaFiles.setBucket(bucket);
             mediaFiles.setFilePath(objectName);
-            mediaFiles.setUrl("/" + bucket + "/" + objectName);
+            // 如果是图片、mp4视频，可以直接入库并设置预览的URL
+            // 其他类型不用设置URL，预览时需要根据后缀名来判断文件类型，进行转码
+            String extensionName = null;
+            String filename = dto.getFilename();
+            if (StringUtils.isNotEmpty(filename) && filename.contains(".")) {
+                extensionName = filename.substring(filename.lastIndexOf("."));
+            }
+            String mimeType = getMimeTypeByExtensionName(extensionName);
+            if (mimeType.contains("image") || mimeType.contains("mp4")) {
+                mediaFiles.setUrl("/" + bucket + "/" + objectName);
+            }
+
             mediaFiles.setCreateDate(LocalDateTime.now());
             mediaFiles.setStatus("1");
             mediaFiles.setAuditStatus("002003");
             mediaFilesMapper.insert(mediaFiles);
         }
         return mediaFiles;
+    }
+
+    /**
+     * @param extensionName 文件扩展名
+     * @return: java.lang.String
+     * @decription 根据文件扩展名来获得文件类型
+     * @date 2023/2/10 14:50
+     */
+    private String getMimeTypeByExtensionName(String extensionName) {
+        String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        if (StringUtils.isNotEmpty(extensionName)) {
+            ContentInfo match = ContentInfoUtil.findExtensionMatch(extensionName);
+            if (null != match) {
+                contentType = match.getMimeType();
+            }
+        }
+        return contentType;
     }
 
     /**
@@ -528,6 +547,25 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
             XueChengException.cast("查询分块文件出错");
         }
         return null;
+    }
+
+    /**
+     * @param id
+     * @return: com.jiuxiao.media.module.po.MediaFiles
+     * @decription 根据文件ID获得文件
+     * @date 2023/2/10 15:08
+     */
+    @Override
+    public MediaFiles getFileById(String id) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(id);
+        if (null == mediaFiles){
+            XueChengException.cast("所查询的文件不存在");
+        }
+        String url = mediaFiles.getUrl();
+        if (StringUtils.isEmpty(url)){
+            XueChengException.cast("文件尚未转码处理，请稍后进行预览");
+        }
+        return mediaFiles;
     }
 }
 

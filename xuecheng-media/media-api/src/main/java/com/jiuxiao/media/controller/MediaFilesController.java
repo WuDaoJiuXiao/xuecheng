@@ -4,6 +4,7 @@ package com.jiuxiao.media.controller;
 import com.jiuxiao.base.exception.XueChengException;
 import com.jiuxiao.base.module.PageParams;
 import com.jiuxiao.base.module.PageResult;
+import com.jiuxiao.base.module.RestResponse;
 import com.jiuxiao.media.module.dto.QueryMediaParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileResultDto;
@@ -74,4 +75,10 @@ public class MediaFilesController {
         mediaFilesService.deleteMedia(id);
     }
 
+    @ApiOperation("预览媒资文件")
+    @GetMapping("/preview/{mediaId}")
+    public RestResponse<String> previewMediaFiles(@PathVariable String mediaId){
+        MediaFiles mediaFiles = mediaFilesService.getFileById(mediaId);
+        return RestResponse.success(mediaFiles.getUrl());
+    }
 }

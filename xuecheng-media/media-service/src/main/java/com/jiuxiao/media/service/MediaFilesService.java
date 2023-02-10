@@ -98,4 +98,12 @@ public interface MediaFilesService extends IService<MediaFiles> {
      * @date 2023/2/8 11:10
      */
     RestResponse<Boolean> mergeChunks(Long companyId, String fileMd5, int chunkTotal, UploadFileParamsDto dto) throws IOException;
+
+    /**
+     * @param id
+     * @return: com.jiuxiao.media.module.po.MediaFiles
+     * @decription 根据文件ID获得文件
+     * @date 2023/2/10 15:08
+     */
+    MediaFiles getFileById(String id);
 }

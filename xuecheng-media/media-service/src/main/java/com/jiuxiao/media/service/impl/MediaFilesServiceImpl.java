@@ -11,10 +11,12 @@ import com.jiuxiao.base.module.PageResult;
 import com.jiuxiao.base.module.RestResponse;
 import com.jiuxiao.base.utils.AssertUtils;
 import com.jiuxiao.media.mapper.MediaFilesMapper;
+import com.jiuxiao.media.mapper.MediaProcessMapper;
 import com.jiuxiao.media.module.dto.QueryMediaParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileResultDto;
 import com.jiuxiao.media.module.po.MediaFiles;
+import com.jiuxiao.media.module.po.MediaProcess;
 import com.jiuxiao.media.service.MediaFilesService;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
@@ -51,6 +53,9 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
 
     @Resource
     private MediaFilesMapper mediaFilesMapper;
+
+    @Resource
+    private MediaProcessMapper mediaProcessMapper;
 
     @Resource
     private MinioClient minioClient;
@@ -156,7 +161,7 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
      * @decription 上传文件到MINIO（大文件）
      * @date 2023/2/8 15:25
      */
-    private void uploadFileToMinIO(String filePath, String bucketName, String objectName) {
+    public void uploadFileToMinIO(String filePath, String bucketName, String objectName) {
         try {
             UploadObjectArgs objectArgs = UploadObjectArgs.builder()
                     .bucket(bucketName)
@@ -231,11 +236,19 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
             if (mimeType.contains("image") || mimeType.contains("mp4")) {
                 mediaFiles.setUrl("/" + bucket + "/" + objectName);
             }
-
             mediaFiles.setCreateDate(LocalDateTime.now());
             mediaFiles.setStatus("1");
             mediaFiles.setAuditStatus("002003");
             mediaFilesMapper.insert(mediaFiles);
+
+            //对于不是mp4格式的视频，需要将其信息插入到 media_process 表，等待视频转码任务进行处理
+            if (mimeType.equals("video/x-msvideo")){ //这里以 avi 格式为例
+                MediaProcess mediaProcess = new MediaProcess();
+                BeanUtils.copyProperties(mediaFiles, mediaProcess);
+                //设置一个状态来表示未处理或已处理
+                mediaProcess.setStatus("1");
+                mediaProcessMapper.insert(mediaProcess);
+            }
         }
         return mediaFiles;
     }
@@ -534,7 +547,7 @@ public class MediaFilesServiceImpl extends ServiceImpl<MediaFilesMapper, MediaFi
      * @decription 根据桶名和对象名从minio下载一个文件
      * @date 2023/2/8 14:46
      */
-    private File downloadFileFromMinIO(File file, String bucketName, String objectName) {
+    public File downloadFileFromMinIO(File file, String bucketName, String objectName) {
         GetObjectArgs objectArgs = GetObjectArgs.builder().bucket(bucketName).object(objectName).build();
         try (
                 InputStream inputStream = minioClient.getObject(objectArgs);

@@ -9,6 +9,7 @@ import com.jiuxiao.media.module.dto.UploadFileParamsDto;
 import com.jiuxiao.media.module.dto.UploadFileResultDto;
 import com.jiuxiao.media.module.po.MediaFiles;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -106,4 +107,24 @@ public interface MediaFilesService extends IService<MediaFiles> {
      * @date 2023/2/10 15:08
      */
     MediaFiles getFileById(String id);
+
+    /**
+     * @param file       下载的文件
+     * @param bucketName 桶名
+     * @param objectName 对象名
+     * @return: java.io.File
+     * @decription 根据桶名和对象名从minio下载一个文件
+     * @date 2023/2/8 14:46
+     */
+    File downloadFileFromMinIO(File file, String bucketName, String objectName);
+
+    /**
+     * @param filePath   文件在服务器本地的存储路径
+     * @param bucketName 上传后存储的桶名称
+     * @param objectName 文件对象名称
+     * @return: void
+     * @decription 上传文件到MINIO（大文件）
+     * @date 2023/2/8 15:25
+     */
+    void uploadFileToMinIO(String filePath, String bucketName, String objectName);
 }
